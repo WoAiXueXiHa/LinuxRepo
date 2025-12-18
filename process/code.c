@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/types.h>
 
 int main(){
-  while(1){
-    printf("hello Linux\n");
+  int cnt = 1;
+  while(cnt <= 1000){
+    printf("The process is running! My pid is: %d,  The sceond is : %d\n",getpid(), cnt++);
     sleep(1);
   }
 
