@@ -1,4 +1,4 @@
-show_fork:show_fork.c
+myexec:exec.c
 	gcc -o $@ $^
 
 .PHONY:clean
