@@ -20,6 +20,7 @@ enum{
 
 class ProcessPool{
 public:
+    // 初始化进程池大小 
     ProcessPool(int n, work_t w)
         :_processNum(n)
         ,_work(w)
@@ -27,6 +28,7 @@ public:
 
     // _channels 输出型参数
     // work_t work 回调
+    // 创建管道 fork子进程 建立通信信道
     int InitProcessPool(){
         // 2. 创建指定个数进程
         for(int i = 0; i < _processNum; i++){
