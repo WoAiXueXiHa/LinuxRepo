@@ -1,30 +1,19 @@
 #pragma once
-
 #include <iostream>
+#include <ctime>
 #include <string>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 
-const std::string gpipeFile = "./fifo";
-const mode_t gmode = 0600;
-const int gdefultFd = -1;
-const int gsize = 1024;
-const int gForRead = O_RDONLY;
-const int gForWrite = O_WRONLY;
+std::string GetCurTime(){
+    time_t t = time(nullptr);
+    struct tm* cur = ::localtime(&t);
 
-int OpenPipe(int flag){
-    // 读端打开文件时，写端还没打开，读端会阻塞
-    int fd = ::open(gpipeFile.c_str(), flag);
-    if(fd < 0){
-        std::cerr << "open err\n";
-    }
-    return fd;
-}
-
-void ClosePipeHelper(int fd){
-    if(fd >= 0){
-        ::close(fd);
-    }
+    char curtime[32];
+    snprintf(curtime, sizeof(curtime), "%d-%d-%d %d:%d:%d",
+             cur->tm_year + 1900,
+             cur->tm_mon + 1,
+             cur->tm_mday,
+             cur->tm_hour,
+             cur->tm_min,
+             cur->tm_sec);
+    return curtime;
 }
