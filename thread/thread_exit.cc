@@ -79,8 +79,6 @@ using namespace std;
 #include <pthread.h>
 #include <unistd.h>
 
-using namespace std;
-
 // 子线程函数：它要活得比主线程长
 void* worker(void* arg) {
     for (int i = 1; i <= 5; i++) {
