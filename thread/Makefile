@@ -1,4 +1,4 @@
-mythread:mythread.cc
+mythread:thread_wait.cc
 	g++ -o $@ $^ -lpthread
 
 .PHONY:clean
