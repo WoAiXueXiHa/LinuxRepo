@@ -2,24 +2,47 @@
 using namespace std;
 using namespace thread_v1;
 
-void task()
+// 模拟抢票
+using namespace std;
+using namespace thread_v1;
+
+// 全局共享资源 火车票
+static int tickets = 1000;
+
+void GetTicket()
 {
-    while(1)
+    while (1)
     {
-        cout << "v1 线程正在疯狂运行...\n";
-        sleep(1);
+        if (tickets > 0)
+        {
+            // 模拟抢票耗时
+            usleep(1000);
+
+            cout << "当前线程： " << pthread_self() << "抢到了第 " << tickets << " 张票\n";
+            tickets--;
+        }else{
+            break;
+        }
     }
 }
-// int main(){
-//     thread t(task);
 
-//     t.Start();
-//     cout << "主线程 " << t.getName() << " 已启动\n";
-//     sleep(3);
-//     cout << "主线程：准备强制停止v1线程...\n";
-//     t.Stop();
-//     t.Join();
-//     cout << "主线程： v1线程已销毁\n";
+int main(){
+    thread t1(GetTicket);
+    thread t2(GetTicket);
+    thread t3(GetTicket);
+    thread t4(GetTicket);
 
-//     return 0;
-// }
+    t1.Start();
+    t2.Start();
+    t3.Start();
+    t4.Start();
+
+    t1.Join();
+    t2.Join();
+    t3.Join();
+    t4.Join();
+
+    cout << "最终剩余票数: " << tickets << endl;
+
+    return 0;
+}
