@@ -60,7 +60,7 @@ namespace ThreadPoolModule{
             {
                 for(int i = 0; i < _num; i++){
                     // std::bind 把this指针和占位符传进去，适配Thread接口
-                    _threads.push_bask(std::make_shared<Thread>(std::bind(&ThreadPool::HandlerTask, this, std::placeholders::_1)));
+                    _threads.push_back(std::make_shared<Thread>(std::bind(&ThreadPool::HandlerTask, this, std::placeholders::_1)));
                     LOG(INFO) << "构建线程" << _threads.back() ->getName() << "对象...成功";
                 }
             }
@@ -91,7 +91,7 @@ namespace ThreadPoolModule{
         }
 
         void Stop(){
-            LockGuard LockGuard(_lockq);
+            LockGuard lockGuard(_lockq);
             if(_is_running){
                 _is_running = false;
                 if(_wait_num > 0) _cond.NotifyAll();

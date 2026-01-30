@@ -82,7 +82,7 @@ namespace LogMudle{
     // ---- 策略2：文件输出 ----
     class FileLogStrategy : public LogStrategy{
     public:
-        FileLogStrategy(const std::string logPath, const std::string logName)
+        FileLogStrategy(const std::string logPath = defaultLogPath, const std::string logName = defaultLogName)
             :_logPath(logPath)
             ,_logName(logName)
             {
@@ -155,6 +155,11 @@ namespace LogMudle{
                 _logInfo += ss.str();
                 return *this;
             }
+
+            ~LogMsg(){ 
+                if(_logger._strategy)
+                    _logger._strategy->SyncLog(_logInfo); 
+            }
         private:
             std::string _curTime;
             LogLevel _level;
@@ -164,6 +169,11 @@ namespace LogMudle{
             Logger& _logger;
             std::string _logInfo;
         };
+
+        LogMsg operator()(LogLevel level, const std::string& fileName, int line){
+            // 返回一个临时对象，利用该对象的析构函数触发写日志
+            return LogMsg(level, fileName, line, *this);
+        }
     // 开放给LogMsg内部类访问_strategy，也可以私有提供给get方法
     public:
         std::shared_ptr<LogStrategy> _strategy;

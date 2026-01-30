@@ -40,8 +40,8 @@ namespace ThreadModule{
                 if(_status != RUNNING){
                     int n = ::pthread_create(&_tid, nullptr, Routine, this);
                     if(0 != n) return false;
-                    return true;
                 }
+                return true;
             }
 
             bool Stop(){
