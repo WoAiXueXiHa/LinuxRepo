@@ -1,4 +1,4 @@
-bin=proc
+bin=thread_pool
 src=$(wildcard *.cc)
 obj=$(src:.cc:.o)
 cc=g++
